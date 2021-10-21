@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% if title %}
+        <title>skanhama - {{ title }}</title>
+    {% else %}
+        <title>skanhama</title>
+    {% endif %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <!-- External Refs -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&family=Titillium+Web:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="menu-top">
+        <div class="menu-top-inner">
+            <div class="menu-top-inner-logo">
+                <a href="{{ url_for('home') }}"><img src="../static/temp_logo.png" alt="Logo and Home Link"></a>
+            </div>
+            <nav class="menu-top-inner-nav">
+                <ul>
+                    <li><a href="{{ url_for('browse') }}">Browse</a></li>
+                    <li><a href="{{ url_for('upload') }}">Upload</a></li>
+                    <li><a href="{{ url_for('about') }}">About</a></li>
+                    <li><a href="{{ url_for('faq') }}">FAQ</a></li>
+                </ul>
+            </nav>
+            <div class="menu-top-inner-user">
+                <a id="login" class="btn btn-clear" href="{{ url_for('login') }}" title="Log in to SKANHAMA">Log In</a>
+                <a id="register" class="btn btn-register" href="{{ url_for('register') }}" title="Register to SKANHAMA">Register</a>
+            </div>
+        </div>
+    </div>
+    <div class="main">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash flash-{{ category }}">
+                        <p>{{ message }}</p>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        {% block content %}
+        {% endblock %}
+    </div>
+</body>
+</html>
