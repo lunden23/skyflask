@@ -65,20 +65,25 @@ a:visited {
    height: 2.3rem;
    font-size: 1rem;
    font-weight: 600;
-   color: var(--clr-text-dark);
-   background: var(--clr-AA);
-   border: solid var(--clr-AA) 1px;
    text-decoration: none;
    text-align: center;
 }
-.btn:visited {
-   color: var(--clr-text-dark);
-}
 .btn:hover {
    text-decoration: underline;
+}
+
+.btn-solid {
+   color: var(--clr-text-dark);
+   background: var(--clr-AA);
+   border: solid var(--clr-AA) 1px;
+}
+.btn-solid:hover {
+   color: var(--clr-text-light) !important;
    background: var(--clr-bg-hover);
    border: solid var(--clr-AA) 1px;
-   color: var(--clr-text-light);
+}
+.btn-solid:visited {
+   color: var(--clr-text-dark);
 }
 
 .btn-clear {
@@ -86,11 +91,11 @@ a:visited {
    background: rgba(248,248,248,0);
    border: solid #28e5c2 1px;
 }
-.btn-clear:visited {
-   color: var(--clr-text-light);
-}
 .btn-clear:hover {
+   color: var(--clr-text-light) !important;
    background: var(--clr-bg-hover);
+}
+.btn-clear:visited {
    color: var(--clr-text-light);
 }
 
@@ -98,12 +103,13 @@ a:visited {
    margin: 0.5rem auto 0 auto;
    padding: 0;
    width: 9rem;
+   cursor: pointer;
 }
 
 .flash {
    /*margin: var(--container-body-margin);*/
    display: inline-flex;
-   line-height: 2rem;
+   line-height: 1.8rem;
    margin: var(--container-body-margin);
    text-align: left;
    color: var(--clr-text-light);
@@ -118,9 +124,20 @@ a:visited {
 }
 
 /*
+*                    Bottom Bar
+*/
+.bot {
+   overflow: hidden;
+   position: fixed;
+   bottom: 0;
+   width: 100%;
+   background: #9C1A1C;
+}
+
+/*
 *                    Top Menu
 */
-.menu-top {
+.header {
    width: 100%;
    background: #181818;
    padding: 0;
