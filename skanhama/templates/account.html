@@ -1,12 +1,30 @@
 {% extends "layout.html" %}
 {% block content %}
-    <div class="container-body">
-        <h1>{{ current_user.username }}</h1>
-        <p>SkyAnim is a website meant to enable users to share animation packages with each other even if
-            some animations are locked behind a Patreon subscription or similar paywalls. That doesn't mean
-            that you can download copyright-protected work. Instead, users can upload their compiled animation
-            package, for example a Dynamic Animation Replacer folder, containing many different animation files from
-            various sources. You can then peruse the different uploaded packages and select one you like. After you
-            have found such a package.</p>
+    <div class="content-container">
+        <h1>Account Page</h1>
+{#        <h1>{{ current_user.username }}</h1>#}
+        <div class="container-sidebar">
+            <nav class="nav-sidebar">
+                <ul>
+                    <li><a href="#">Account</a> </li>
+                    <li><a href="#">Uploads</a> </li>
+                    <li><a href="#">Downloads</a> </li>
+                </ul>
+            </nav>
+            <div class="container-sidebar-right">
+                <div class="container-account">
+                    <h2>Account & Security Settings</h2>
+                    <h3>Account Information</h3>
+                </div>
+                <div class="container-uploads">
+                    <h2>Uploaded Packages</h2>
+                    <p>Test</p>
+                </div>
+                <div class="container-downloads">
+                    <h2>Downloaded Packages</h2>
+                    <p>Test</p>
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock content %}

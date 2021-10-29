@@ -7,7 +7,7 @@
     {% else %}
         <title>skanhama</title>
     {% endif %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='style_b.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 
     <!-- External Refs -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,45 +15,50 @@
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&family=Titillium+Web:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="header">
-        <div class="menu-top-inner">
-            <div class="menu-top-inner-logo">
-                <a href="{{ url_for('home') }}"><img src="" alt="Logo and Home Link"></a>
-            </div>
-            <nav class="menu-top-inner-nav">
-                <ul>
-                    <li><a href="{{ url_for('browse') }}">Browse</a></li>
-                    <li><a href="{{ url_for('upload') }}">Upload</a></li>
-                    <li><a href="{{ url_for('about') }}">About</a></li>
-                    <li><a href="{{ url_for('faq') }}">FAQ</a></li>
-                </ul>
-            </nav>
-            <div class="menu-top-inner-user">
-                {% if current_user.is_authenticated %}
-                    <a id="logout" class="btn btn-clear" href="{{ url_for('logout') }}" title="Log out">Log Out</a>
-                    <a id="profile" class="btn btn-solid" href="{{ url_for('account') }}" title="Visit account page">Account</a>
-                {% else %}
-                    <a id="login" class="btn btn-clear" href="{{ url_for('login') }}" title="Log in to SKANHAMA">Log In</a>
-                    <a id="register" class="btn btn-solid" href="{{ url_for('register') }}" title="Register to SKANHAMA">Register</a>
-                {% endif %}
+    <div class="main">
+        <div class="header">
+            <div class="header-inner">
+                <div class="header-inner-left">
+                    <a href="{{ url_for('home') }}"><img src="" alt="Logo and Home Link"></a>
+                </div>
+                <nav class="header-inner-center">
+                    <ul>
+                        <li><a href="{{ url_for('browse') }}">Browse</a></li>
+                        <li><a href="{{ url_for('upload') }}">Upload</a></li>
+                        <li><a href="{{ url_for('about') }}">About</a></li>
+                        <li><a href="{{ url_for('faq') }}">FAQ</a></li>
+                    </ul>
+                </nav>
+                <div class="header-inner-right">
+                    {% if current_user.is_authenticated %}
+                        <a id="logout" class="btn btn-clear" href="{{ url_for('logout') }}" title="Log out">Log Out</a>
+                        <a id="profile" class="btn btn-solid" href="{{ url_for('account') }}" title="Visit account page">Account</a>
+                    {% else %}
+                        <a id="login" class="btn btn-clear" href="{{ url_for('login') }}" title="Log in to SKANHAMA">Log In</a>
+                        <a id="register" class="btn btn-solid" href="{{ url_for('register') }}" title="Register to SKANHAMA">Register</a>
+                    {% endif %}
+                </div>
             </div>
         </div>
-    </div>
-    <div class="main">
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for category, message in messages %}
-                    <div class="flash flash-{{ category }}">
-                        <p>{{ message }}</p>
-                    </div>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
-        {% block content %}
-        {% endblock %}
-    </div>
-    <div class="bot">
-        <p>Discuss SKANHAMA on Nexus Mods.</p>
+        <div class="content">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="flash flash-{{ category }}">
+                            <p>{{ message }}</p>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            {% block content %}
+
+            {% endblock %}
+        </div>
+        <div class="footer">
+            <div class="footer-inner">
+                <p>Discuss SKANHAMA on Nexus Mods.</p>
+            </div>
+        </div>
     </div>
 </body>
 </html>

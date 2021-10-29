@@ -1,13 +1,10 @@
 {% extends "layout.html" %}
 {% block content %}
-    <div class="container-body container-row">
+    <div class="content-container container-center">
         <div class="container-register">
-            <div class="container-centered">
-                <h1>Create an Account</h1>
-                <p>Create a new account just for this site. Please take a minute to read my
-                    <a href="#">Privacy Policy</a> to fully understand your rights as a user.</p>
-            </div>
-            <form method="POST" action="">
+            <h1>Create an Account</h1>
+            <p>Please read the <a href="#">Privacy Policy</a> to fully understand your rights.</p>
+            <form method="POST" action="" class="form-main">
                 {{ form.hidden_tag() }}
                 <fieldset class="form-group-field">
                     <div class="form-group">
@@ -62,15 +59,11 @@
                             {{ form.confirm_password(class="form-control") }}
                         {% endif %}
                     </div>
-                    <div class="form-group">
-                        {{ form.submit(class="btn btn-clear btn-submit") }}
+                    <div class="form-group container-center">
+                        {{ form.submit(class="btn btn-solid btn-submit") }}
                     </div>
                 </fieldset>
             </form>
-        </div>
-        <div class="container-register container-nexus">
-            <h1>Nexus Mods Account</h1>
-            <p>Already have a Nexus Mods account? Sign in using it here. Login is handled through the Nexus Mods API.</p>
         </div>
     </div>
 {% endblock %}

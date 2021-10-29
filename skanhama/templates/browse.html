@@ -1,35 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>SkyAnim - Packages</title>
-    <link rel="stylesheet" href="../static/style.css">
-
-    <!-- External Refs -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&family=Titillium+Web:wght@300;400;600&display=swap" rel="stylesheet">
-</head>
-<body>
-    <div class="header">
-        <div class="menu-top-inner">
-          <nav class="navigation">
-             <ul>
-                <li><a href="/home.html">Home</a></li>
-                <li><a href="#">Download</a></li>
-                <li><a href="#">Browse</a></li>
-                <li><a href="#">Upload</a></li>
-             </ul>
-          </nav>
-       </div>
-   </div>
-
-    <div class="container-packages">
-        <h1>Packages</h1>
-        <p>Browse packages uploaded by other users. Once you have found one that you like, you can click on it to
-        see what the requirements are. Make sure you have the requirements necessary and then upload them in a zipped
-        file (only .zip is accepted). SkyAnim will then reorganize them to mirror that of the selected package and
-        then make the altered file structure available to you.</p>
+{% extends "layout.html" %}
+{% block content %}
+    <div class="content-container">
+        <h1>Browse Animation Packages</h1>
+        <p>SkyAnim is a website meant to enable users to share animation packages with each other even if
+            some animations are locked behind a Patreon subscription or similar paywalls. That doesn't mean
+            that you can download copyright-protected work. Instead, users can upload their compiled animation
+            package, for example a Dynamic Animation Replacer folder, containing many different animation files from
+            various sources. You can then peruse the different uploaded packages and select one you like. After you
+            have found such a package.</p>
+        <p>If this sounds enticing to you please feel free to register to use the site. Since I let users upload a
+        lot of data to the server for parsing, I opted to require accounts to prevent spam. Don't worry though, I only
+        require you to validate your account via an email address.</p>
     </div>
-</body>
-</html>
+{% endblock content %}
