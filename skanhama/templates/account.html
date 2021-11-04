@@ -1,30 +1,22 @@
 {% extends "layout.html" %}
 {% block content %}
     <div class="content-container">
-        <h1>Account Page</h1>
-{#        <h1>{{ current_user.username }}</h1>#}
         <div class="container-sidebar">
-            <nav class="nav-sidebar">
-                <ul>
-                    <li><a href="#">Account</a> </li>
-                    <li><a href="#">Uploads</a> </li>
-                    <li><a href="#">Downloads</a> </li>
-                </ul>
-            </nav>
-            <div class="container-sidebar-right">
-                <div class="container-account">
-                    <h2>Account & Security Settings</h2>
-                    <h3>Account Information</h3>
-                </div>
-                <div class="container-uploads">
-                    <h2>Uploaded Packages</h2>
-                    <p>Test</p>
-                </div>
-                <div class="container-downloads">
-                    <h2>Downloaded Packages</h2>
-                    <p>Test</p>
-                </div>
+            <div class="nav-sidebar-container">
+                <nav class="nav-sidebar">
+                    <ul class="nav-sidebar-list">
+                        <li><a href="{{ url_for("account") }}">Overview</a></li>
+                        <li><a href="{{ url_for("account_username") }}">Username</a></li>
+                        <li><a href="{{ url_for("account_email") }}">Email Address</a></li>
+                        <li><a href="{{ url_for("account_password") }}">Password</a></li>
+                        <li><a href="{{ url_for("account_data") }}">Personal Data</a></li>
+                        <li><a href="#">Delete Account</a></li>
+                    </ul>
+                </nav>
             </div>
+            {% block account %}
+
+            {% endblock %}
         </div>
     </div>
 {% endblock content %}

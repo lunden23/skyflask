@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 {% block content %}
     <div class="content-container container-center">
-        <div class="container-register">
+        <div class="container-form">
             <h1>Create an Account</h1>
             <p>Please read the <a href="#">Privacy Policy</a> to fully understand your rights.</p>
             <form method="POST" action="" class="form-main">
@@ -34,6 +34,19 @@
                         {% endif %}
                     </div>
                     <div class="form-group">
+                        {{ form.confirm_email.label(class="form-control-label") }}
+                        {% if form.confirm_email.errors %}
+                            {{ form.confirm_email(class="form-control invalid-form") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.confirm_email.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.confirm_email(class="form-control") }}
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
                         {{ form.password.label(class="form-control-label") }}
                         {% if form.password.errors %}
                             {{ form.password(class="form-control invalid-form") }}
@@ -60,7 +73,7 @@
                         {% endif %}
                     </div>
                     <div class="form-group container-center">
-                        {{ form.submit(class="btn btn-solid btn-submit") }}
+                        {{ form.submit(class="btn btn-clear btn-submit") }}
                     </div>
                 </fieldset>
             </form>

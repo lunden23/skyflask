@@ -8,6 +8,7 @@
         <title>skanhama</title>
     {% endif %}
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="{{ url_for("static", filename="scripts.js") }}"></script>
 
     <!-- External Refs -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -19,23 +20,23 @@
         <div class="header">
             <div class="header-inner">
                 <div class="header-inner-left">
-                    <a href="{{ url_for('home') }}"><img src="" alt="Logo and Home Link"></a>
+                    <a href="{{ url_for('home') }}"><img id="logo" src="{{ url_for("static", filename="logo.svg") }}" alt="Logo and Home Link"></a>
                 </div>
                 <nav class="header-inner-center">
-                    <ul>
+                    <ul id="nav-list">
                         <li><a href="{{ url_for('browse') }}">Browse</a></li>
                         <li><a href="{{ url_for('upload') }}">Upload</a></li>
                         <li><a href="{{ url_for('about') }}">About</a></li>
-                        <li><a href="{{ url_for('faq') }}">FAQ</a></li>
                     </ul>
+                    <input id="search-nav" class="search" type="text" placeholder="Search..." autocomplete="off" onclick="navSearchFocus()">
                 </nav>
                 <div class="header-inner-right">
                     {% if current_user.is_authenticated %}
-                        <a id="logout" class="btn btn-clear" href="{{ url_for('logout') }}" title="Log out">Log Out</a>
-                        <a id="profile" class="btn btn-solid" href="{{ url_for('account') }}" title="Visit account page">Account</a>
+                        <a id="logout" class="btn btn-clear" href="{{ url_for('logout') }}">Log Out</a>
+                        <a id="profile" class="btn btn-solid" href="{{ url_for('account') }}">Account</a>
                     {% else %}
-                        <a id="login" class="btn btn-clear" href="{{ url_for('login') }}" title="Log in to SKANHAMA">Log In</a>
-                        <a id="register" class="btn btn-solid" href="{{ url_for('register') }}" title="Register to SKANHAMA">Register</a>
+                        <a id="login" class="btn btn-clear" href="{{ url_for('login') }}">Log In</a>
+                        <a id="register" class="btn btn-solid" href="{{ url_for('register') }}">Register</a>
                     {% endif %}
                 </div>
             </div>

@@ -1,10 +1,113 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-</body>
-</html>
+{% extends "layout.html" %}
+{% block content %}
+    <div class="content-container">
+        <div class="upload-top">
+            <form method="POST" action="" enctype="multipart/form-data">
+                {{ form.hidden_tag() }}
+                <fieldset class="form-group-field">
+                    <!-- Name -->
+                    <div class="form-group">
+                        {{ form.name.label(class="form-control-label") }}
+                        {% if form.name.errors %}
+                            {{ form.name(class="form-control invalid-form") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.name.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.name(class="form-control") }}
+                        {% endif %}
+                    </div>
+                    <!-- Authors -->
+                    <div class="form-group">
+                        {{ form.author.label(class="form-control-label") }}
+                        {% if form.author.errors %}
+                            {{ form.author(class="form-control invalid-form") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.author.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.author(class="form-control") }}
+                        {% endif %}
+                    </div>
+                    <!-- Category -->
+                    <div class="form-group">
+                        {{ form.category.label(class="form-control-label") }}
+                        {% if form.category.errors %}
+                            {{ form.category(class="form-control invalid-form") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.category.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.category(class="form-control") }}
+                        {% endif %}
+                    </div>
+                    <!-- Brief Description -->
+                    <div class="form-group">
+                        {{ form.synopsis.label(class="form-control-label") }}
+                        {% if form.synopsis.errors %}
+                            {{ form.synopsis(class="form-control invalid-form") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.synopsis.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.synopsis(class="form-control") }}
+                        {% endif %}
+                    </div>
+                    <!-- Description -->
+                    <div class="form-group">
+                        {{ form.description.label(class="form-control-label") }}
+                        {% if form.description.errors %}
+                            {{ form.description(class="form-control invalid-form") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.description.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.description(class="form-control") }}
+                        {% endif %}
+                    </div>
+                    <!-- Description -->
+                    <div class="form-group">
+                        {{ form.requirements.label(class="form-control-label") }}
+                        {% if form.requirements.errors %}
+                            {{ form.requirements(class="form-control invalid-form") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.requirements.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.requirements(class="form-control") }}
+                        {% endif %}
+                    </div>
+                </fieldset>
+                <fieldset class="form-fieldset-upload">
+                    <!-- File Upload -->
+                    <div class="form-group-upload">
+                        {{ form.package.label() }}
+                        {{ form.package(class="form-control-file") }}
+                        {% if form.package.errors %}
+                            {% for error in form.package.errors %}
+                                <span>{{ error }}</span><br>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </fieldset>
+                <fieldset class="form-group-field">
+                    <div class="form-button-upload">
+                        {{ form.upload(class="btn btn-clear btn-upload") }}
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+{% endblock content %}

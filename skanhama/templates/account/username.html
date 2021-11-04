@@ -1,0 +1,31 @@
+{% extends "account.html" %}
+{% block account %}
+    <div class="container-sidebar-right">
+        <h2>Change Username</h2>
+        <div class="container-form">
+            <form method="POST" action="" class="form-main">
+                {{ form.hidden_tag() }}
+                <fieldset class="form-group-field no-margin">
+                    <div class="form-group">
+                        <div class="form-subgroup">
+                            {{ form.username.label(class="form-control-label") }}
+                            {% if form.username.errors %}
+                                {{ form.username(class="form-control invalid-form") }}
+                                <div class="invalid-feedback">
+                                    {% for error in form.username.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form.username(class="form-control") }}
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="form-group container-center">
+                        {{ form.submit(class="btn btn-clear btn-submit") }}
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+{% endblock %}
