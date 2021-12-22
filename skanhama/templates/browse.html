@@ -2,12 +2,14 @@
 {% block content %}
     <div class="content-container">
         <div class="browse-hot">
-            <div class="card-hot">
-
-            </div>
         </div>
         <div class="browse-body">
             <h1>Browse Packages</h1>
+            {% for package in packages.items %}
+                <div class="card-hot">
+                    <h2><a class="card-title" href="{{ url_for('package', package_id=package.id) }}">{{ package.name }}</a></h2>
+                </div>
+            {% endfor %}
         </div>
     </div>
 {% endblock content %}

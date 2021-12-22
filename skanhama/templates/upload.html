@@ -19,6 +19,20 @@
                             {{ form.name(class="form-control") }}
                         {% endif %}
                     </div>
+                    <!-- Version -->
+                    <div class="form-group">
+                        {{ form.version.label(class="form-control-label") }}
+                        {% if form.version.errors %}
+                            {{ form.version(class="form-control invalid-form") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.version.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.version(class="form-control") }}
+                        {% endif %}
+                    </div>
                     <!-- Authors -->
                     <div class="form-group">
                         {{ form.author.label(class="form-control-label") }}
@@ -47,20 +61,6 @@
                             {{ form.category(class="form-control") }}
                         {% endif %}
                     </div>
-                    <!-- Brief Description -->
-                    <div class="form-group">
-                        {{ form.synopsis.label(class="form-control-label") }}
-                        {% if form.synopsis.errors %}
-                            {{ form.synopsis(class="form-control invalid-form") }}
-                            <div class="invalid-feedback">
-                                {% for error in form.synopsis.errors %}
-                                    <span>{{ error }}</span>
-                                {% endfor %}
-                            </div>
-                        {% else %}
-                            {{ form.synopsis(class="form-control") }}
-                        {% endif %}
-                    </div>
                     <!-- Description -->
                     <div class="form-group">
                         {{ form.description.label(class="form-control-label") }}
@@ -75,7 +75,7 @@
                             {{ form.description(class="form-control") }}
                         {% endif %}
                     </div>
-                    <!-- Description -->
+                    <!-- Requirements -->
                     <div class="form-group">
                         {{ form.requirements.label(class="form-control-label") }}
                         {% if form.requirements.errors %}
@@ -87,6 +87,20 @@
                             </div>
                         {% else %}
                             {{ form.requirements(class="form-control") }}
+                        {% endif %}
+                    </div>
+                    <!-- NSFW -->
+                    <div class="form-group">
+                        {{ form.nsfw.label(class="form-control-label") }}
+                        {% if form.nsfw.errors %}
+                            {{ form.nsfw(class="form-control invalid-form") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.nsfw.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.nsfw(class="form-control") }}
                         {% endif %}
                     </div>
                 </fieldset>

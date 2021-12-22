@@ -27,17 +27,31 @@ class User(db.Model, UserMixin):
 class Package(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), unique=True, nullable=False)
+    version = db.Column(db.String(30), nullable=False)
     author = db.Column(db.String(100), nullable=False)
-    synopsis = db.Column(db.String(300), nullable=False)
     description = db.Column(db.Text, nullable=False)
     requirements = db.Column(db.Text, nullable=False)
+    package_dir = db.Column(db.String(400), nullable=False, unique=True)
     date_uploaded = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    downloads_total = db.Column(db.BigInteger, nullable=False)
+    downloads_current_version = db.Column(db.BigInteger, nullable=False)
+    views_total = db.Column(db.BigInteger, nullable=False)
+    nsfw = db.Column(db.Boolean, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
     category = db.relationship("Categories", backref="category_id", lazy=True)
     comments = db.relationship("Comment", backref="package_comments", lazy=True)
 
     def __repr__(self):
         return f"Package ('{self.date_uploaded}', {self.id}', '{self.name}', '{self.uploaderl}', '{self.synposis}')"
+
+
+class PackageAnimations(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    version = db.Column(db.String, nullable=False, unique=True)
+    package_id = db.Column(db.Integer, db.ForeignKey("package.id"), nullable=False)
+
+    def __repr__(self):
+        return f"Animation file: {self.hash} | {self.size}, {self.relative_path}, {self.file_name}"
 
 
 class Categories(db.Model):

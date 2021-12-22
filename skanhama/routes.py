@@ -1,13 +1,18 @@
-import os.path, zipfile
 import secrets
-from pathlib import Path
+import os.path
+import zipfile
+import hashlib
+import shutil
+import json
+
 from datetime import datetime
+from pathlib import Path
 from flask import render_template, url_for, flash, redirect, request
 from flask_login import login_user, current_user, logout_user, login_required
 from werkzeug.security import generate_password_hash, check_password_hash
 from skanhama import app, db
-from skanhama.models import User
 from skanhama.forms import RegistrationForm, LoginForm, ChangeUsername, ChangeEmail, UploadPackage
+from skanhama.models import User, Package
 
 
 @app.route("/")
@@ -109,29 +114,55 @@ def account_data():
 
 @app.route("/browse")
 def browse():
-    return render_template("browse.html", title="Browse Packages")
+    page = request.args.get("page", 1, type=int)
+    packages = Package.query.order_by(Package.date_uploaded.desc()).paginate(page=page, per_page=25)
+    return render_template("browse.html", title="Browse Packages", packages=packages)
 
 
-def process_package(form_package):
-    with zipfile.ZipFile(form_package, "r") as zip_package:
-        temp_dir = secrets.token_hex(8)
-        p_path = os.path.join(app.root_path, "static/package_temp", temp_dir)
-        zip_package.extractall(p_path)
-        print(f"Zip file extracted to temp_dir: {p_path}")
-        paths = Path(p_path).glob("**/*.hkx")
+# Processes the uploaded package
+#
+def process_package(form):
+    processor_version = 0.1
+    f_name, f_ext = os.path.splitext(form.package.data.filename)
+    root_dir = Path(app.root_path, "static/packages", current_user.username)
+    extracted_dir = Path(root_dir, str(form.name.data + "_" + form.version.data))
+    package_dir = Path(extracted_dir)
+    file_dict = {}
+
+    # Check if dir already exists
+    if Path(extracted_dir).exists():
+        shutil.rmtree(extracted_dir)
+
+    # Unzip zipfile to temporary directory and process
+    # All .hkx files are consumed and stored in a .txt file in a JSON encoded
+    # dictionary whereas all other files and the folder structure remains.
+    # static\packages\[username]\[package]\[folder structure]\...
+    # static\packages\[username]\[package]\animations_enc.txt
+    with zipfile.ZipFile(form.package.data, "r") as zip_package:
+        zip_package.extractall(extracted_dir)
+        print(f"Zip file extracted: {extracted_dir}")
+        paths = package_dir.glob("**/*.hkx")
         for path in paths:
-            print("-------------------------------------------------------------------------------------------------------------")
-            print(str(path))
-            print(f"{str(path.name)} - {path.stat().st_size / 1024}kb")
+            file_dict[hashlib.sha256(path.read_bytes()).hexdigest()] = [path.stat().st_size,
+                                                                        str(path.relative_to(package_dir)),
+                                                                        str(path.name)]
+            path.unlink()
+        # Write dictionary to database
+        # for k, v in file_dict.items():
 
-        return 1
-        # for file in os.listdir(os.fsencode(p_path)):
-        #     if file.endswith(".hkx"):
-        #         print(file)
-        #     return 1
-        # else:
-        #     print("No .hkx files found in the uploaded package.")
-        #     return 0
+        json.dump(file_dict, open(Path(extracted_dir, "animations_enc.txt"), "w"))
+        # for k, v in file_dict.items():
+        #     anim = PackageAnimations(hash=k, size=v[0], relative_path=v[1], file_name=v[2])
+        #     db.session.add(anim)
+        # db.session.commit()
+        #     print(f"Key: {k} | Value: {v}")
+
+    # Return whether or not it was a valid package
+    if file_dict:
+        file_dict["_package_data"] = [processor_version, str(package_dir)]
+    else:
+        shutil.rmtree(extracted_dir)
+    return file_dict
 
 
 @app.route("/upload", methods=["GET", "POST"])
@@ -141,13 +172,35 @@ def upload():
     form = UploadPackage()
     if form.validate_on_submit():
         if form.package.data:
-            if process_package(form.package.data) == 0:
-                flash("Your package did not contain any .hkx files and has not been uploaded. Please ensure you"
-                      "upload a package that contains valid Skyrim animation files.", "fail")
-            else:
+            file_dict = process_package(form)
+            if file_dict:
+                print(f"package_data: {file_dict['_package_data'][1]}")
+                pack = Package(name=form.name.data,
+                               version=form.version.data,
+                               author=current_user.username,
+                               description=form.description.data,
+                               requirements=form.requirements.data,
+                               package_dir=file_dict["_package_data"][1],
+                               date_uploaded=datetime.now(),
+                               downloads_total=0,
+                               downloads_current_version=0,
+                               views_total=0,
+                               nsfw=form.nsfw.data,
+                               user_id=current_user.id)
+                db.session.add(pack)
+                db.session.commit()
                 flash("Your package has been successfully uploaded.", "success")
-        return redirect(url_for("browse"))
+            else:
+                flash("Your package did not contain any .hkx files and has not been uploaded. Please ensure you "
+                      "upload a package that contains valid Skyrim animation files.", "fail")
+            return redirect(url_for("browse"))
     return render_template("upload.html", title="Upload Package", form=form)
+
+
+@app.route("/package/<int:package_id>")
+def package(package_id):
+    pack = Package.query.get_or_404(package_id)
+    return render_template("package.html", title=pack.name, pack=pack)
 
 
 @app.route("/about")
