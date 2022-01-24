@@ -1,25 +1,40 @@
-// Function to handle search bar in the navigation bar
-// Expands on click to cover other nav bar items
-function navSearchFocus() {
-    let nav = document.getElementById("nav-list");
-    nav.style.display = "none";
+// Handle opening and closing of the navbar search input
+// Opens on search icon click and closes when user presses outside the search input
+const navSearchIcon = document.getElementById("nav-search-icon");
+const navSearchInput = document.getElementById("nav-search-input");
+const navBar = document.getElementById("nav-list");
+
+navSearchIcon.addEventListener("click", navSearchFunction);
+function navSearchFunction() {
+    navSearchIcon.style.display = "none";
+    navBar.style.display = "none";
+    navSearchInput.style.display = "inline-flex";
+    navSearchInput.focus();
+    window.addEventListener("click", navSearchClickOut);
 }
 
-window.onclick = function(event) {
-    if (!event.target.matches(".search-nav")) {
-        let nav = document.getElementById("nav-list");
-        nav.style.display = "visible";
-    }
+const navSearchClickOut = (e) => {
+  if (!e.target.id.includes("nav-search-input") && !e.target.id.includes("nav-search-icon")) {
+    navSearchInput.style.display = "none";
+    navSearchIcon.style.display = "block";
+    navBar.style.display = "inline-flex";
+    window.removeEventListener("click", navSearchClickOut);
+  }
+};
+
+// Handle opening and closing of the Account Menu
+// Opens on Account icon click and closes when user presses outside the menu
+const accountMenuIcon = document.getElementById("accountMenuIcon");
+const accountMenu = document.getElementById("dropdownAccount");
+
+accountMenuIcon.addEventListener("click", accountMenuFunction);
+function accountMenuFunction() {
+    accountMenu.classList.toggle("dropdown-show");
+    window.addEventListener("click", accountMenuClickOut);
 }
 
-// Function to handle dropdown of account menu when user is logged in
-// Dropdown is shown on button click and hidden on button click or click outside of dropdown area
-function dropdownAccount() {
-    document.getElementById("dropdownAccount").classList.toggle("dropdown-show")
-}
-
-window.onclick = function(event) {
-    if (!event.target.matches(".btn-dropdown")) {
+const accountMenuClickOut = (e) => {
+    if (!e.target.matches(".btn-dropdown")) {
         const dropdowns = document.getElementsByClassName("dropdown-content");
         let i;
         for (i = 0; i < dropdowns.length; i++) {
@@ -28,5 +43,22 @@ window.onclick = function(event) {
                 openDropdown.classList.remove("dropdown-show");
             }
         }
+        window.removeEventListener("click", accountMenuClickOut);
     }
 }
+
+// Live (Active) Search function in the search bar in the nav menu
+// $(function (){
+//     $("#nav-search-input").on("input", function(e){
+//         let textFrontEnd = $("#nav-search-input").val();
+//         // console.log(textFrontEnd);
+//         $.ajax({
+//             method:"post",
+//             url:"/livesearch",
+//             data:{text:textFrontEnd},
+//             success:function (res){
+//                 console.log(res);
+//             }
+//         })
+//     })
+// })

@@ -9,7 +9,6 @@ from skanhama.models import User
 class RegistrationForm(FlaskForm):
     username = StringField("Username", validators=[DataRequired(), Length(min=4, max=23)])
     email = StringField("Email", validators=[DataRequired(), Email(), Length(min=4, max=120)])
-    confirm_email = StringField("Confirm Email", validators=[DataRequired(), Email(), Length(min=4, max=120), EqualTo("email")])
     password = PasswordField("Password", validators=[DataRequired()])
     confirm_password = PasswordField("Confirm Password", validators=[DataRequired(), EqualTo("password")])
     submit = SubmitField("Sign Up")
@@ -60,6 +59,7 @@ class UploadPackage(FlaskForm):
     name = StringField("Package Name", validators=[DataRequired()])
     version = StringField("Current Version", validators=[DataRequired(), Length(min=1, max=30)])
     author = StringField("Author(s) or Team", validators=[DataRequired()])
+    summary = TextAreaField("Brief Description", validators=[DataRequired(), Length(min=1, max=240)])
     description = TextAreaField("Description", validators=[DataRequired(), Length(min=1, max=5000)])
     requirements = TextAreaField("Requirements", validators=[DataRequired()])
     category = SelectField("Primary Category", choices=["Combat", "Sex"], validators=[DataRequired()])

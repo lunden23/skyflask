@@ -2,51 +2,57 @@
 {% block content %}
     <div class="content-container">
         <div class="upload-top">
+            <h1 id="h1-upload">Upload an Animation Package</h1>
             <form method="POST" action="" enctype="multipart/form-data">
                 {{ form.hidden_tag() }}
-                <fieldset class="form-group-field">
-                    <!-- Name -->
-                    <div class="form-group">
-                        {{ form.name.label(class="form-control-label") }}
-                        {% if form.name.errors %}
-                            {{ form.name(class="form-control invalid-form") }}
-                            <div class="invalid-feedback">
-                                {% for error in form.name.errors %}
-                                    <span>{{ error }}</span>
-                                {% endfor %}
-                            </div>
-                        {% else %}
-                            {{ form.name(class="form-control") }}
-                        {% endif %}
+                <fieldset class="form-group-upload">
+                    <div class="upload-content" id="upload-basic">
+                        <h2 class="upload-header">Mod Details</h2>
+                        <!-- Name -->
+                        <div class="form-group-upload">
+                            {{ form.name.label(class="form-label-upload") }}
+                            {% if form.name.errors %}
+                                {{ form.name(class="form-control invalid-form") }}
+                                <div class="invalid-feedback">
+                                    {% for error in form.name.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form.name(class="form-control fc-upload") }}
+                            {% endif %}
+                        </div>
+                        <!-- Authors -->
+                        <div class="form-group">
+                            {{ form.author.label(class="form-control-label") }}
+                            {% if form.author.errors %}
+                                {{ form.author(class="form-control invalid-form") }}
+                                <div class="invalid-feedback">
+                                    {% for error in form.author.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form.author(class="form-control") }}
+                            {% endif %}
+                        </div>
+                        <!-- Version -->
+                        <div class="form-group">
+                            {{ form.version.label(class="form-control-label") }}
+                            {% if form.version.errors %}
+                                {{ form.version(class="form-control invalid-form") }}
+                                <div class="invalid-feedback">
+                                    {% for error in form.version.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form.version(class="form-control") }}
+                            {% endif %}
+                        </div>
                     </div>
-                    <!-- Version -->
-                    <div class="form-group">
-                        {{ form.version.label(class="form-control-label") }}
-                        {% if form.version.errors %}
-                            {{ form.version(class="form-control invalid-form") }}
-                            <div class="invalid-feedback">
-                                {% for error in form.version.errors %}
-                                    <span>{{ error }}</span>
-                                {% endfor %}
-                            </div>
-                        {% else %}
-                            {{ form.version(class="form-control") }}
-                        {% endif %}
-                    </div>
-                    <!-- Authors -->
-                    <div class="form-group">
-                        {{ form.author.label(class="form-control-label") }}
-                        {% if form.author.errors %}
-                            {{ form.author(class="form-control invalid-form") }}
-                            <div class="invalid-feedback">
-                                {% for error in form.author.errors %}
-                                    <span>{{ error }}</span>
-                                {% endfor %}
-                            </div>
-                        {% else %}
-                            {{ form.author(class="form-control") }}
-                        {% endif %}
-                    </div>
+
+
                     <!-- Category -->
                     <div class="form-group">
                         {{ form.category.label(class="form-control-label") }}
@@ -59,6 +65,20 @@
                             </div>
                         {% else %}
                             {{ form.category(class="form-control") }}
+                        {% endif %}
+                    </div>
+                    <!-- Brief Summary -->
+                    <div class="form-group">
+                        {{ form.summary.label(class="form-control-label") }}
+                        {% if form.summary.errors %}
+                            {{ form.summary(class="form-control invalid-form") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.summary.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.summary(class="form-control") }}
                         {% endif %}
                     </div>
                     <!-- Description -->

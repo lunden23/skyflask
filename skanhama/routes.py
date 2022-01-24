@@ -1,5 +1,6 @@
 import secrets
 import os.path
+import sqlite3
 import zipfile
 import hashlib
 import shutil
@@ -7,7 +8,7 @@ import json
 
 from datetime import datetime
 from pathlib import Path
-from flask import render_template, url_for, flash, redirect, request
+from flask import render_template, url_for, flash, redirect, request, jsonify
 from flask_login import login_user, current_user, logout_user, login_required
 from werkzeug.security import generate_password_hash, check_password_hash
 from skanhama import app, db
@@ -178,6 +179,7 @@ def upload():
                 pack = Package(name=form.name.data,
                                version=form.version.data,
                                author=current_user.username,
+                               summary=form.summary.data,
                                description=form.description.data,
                                requirements=form.requirements.data,
                                package_dir=file_dict["_package_data"][1],
@@ -185,11 +187,12 @@ def upload():
                                downloads_total=0,
                                downloads_current_version=0,
                                views_total=0,
+                               likes=0,
                                nsfw=form.nsfw.data,
                                user_id=current_user.id)
                 db.session.add(pack)
                 db.session.commit()
-                flash("Your package has been successfully uploaded.", "success")
+                flash("Your package was successfully uploaded.", "success")
             else:
                 flash("Your package did not contain any .hkx files and has not been uploaded. Please ensure you "
                       "upload a package that contains valid Skyrim animation files.", "fail")
@@ -211,3 +214,32 @@ def about():
 @app.route("/faq")
 def faq():
     return render_template("faq.html")
+
+
+# @app.route("/livesearch", methods=["GET", "POST"])
+# def livesearch():
+#     # searchbox = request.form.get("text")
+#     # con = sqlite3.connect("site.db")
+#     # cursor = con.cursor()
+#     # query = "select name from package where name LIKE '{}%' order by name".format(searchbox)
+#     # cursor.execute(query)
+#     # result = cursor.fetchall()
+#     # return jsonify(result)
+#     searchbox = request.form.get("text")
+#     searchbox = '%' + searchbox + '%'
+#     engine = create_engine('sqlite:///site.db', echo=True)
+#     conn = engine.connect()
+#     result = conn.engine.execute("select * from PACKAGE where name LIKE ? order by name LIMIT 4", searchbox).fetchall()
+#     conn.close()
+#     result= Convert(result)
+#     return result
+#
+#
+# def Convert(lst):
+#     resultproxy = lst
+#     d, a = {}, []
+#     for rowproxy in resultproxy:
+#         for column, value in rowproxy.items():
+#             d = {**d, **{column: value}}
+#         a.append(d)
+#     return d

@@ -17,7 +17,7 @@ class User(db.Model, UserMixin):
     confirmed = db.Column(db.Boolean, nullable=False, default=False)
     confirmed_on = db.Column(db.DateTime, nullable=True)
     admin = db.Column(db.Boolean, nullable=False, default=False)
-    uploads = db.relationship("Package", backref="upload_author", lazy=True)
+    uploads = db.relationship("Package", backref="upload_author", lazy="dynamic")
     comments = db.relationship("Comment", backref="comment_author", lazy=True)
 
     def __repr__(self):
@@ -29,12 +29,14 @@ class Package(db.Model):
     name = db.Column(db.String(120), unique=True, nullable=False)
     version = db.Column(db.String(30), nullable=False)
     author = db.Column(db.String(100), nullable=False)
+    summary = db.Column(db.String(230), nullable=False)
     description = db.Column(db.Text, nullable=False)
     requirements = db.Column(db.Text, nullable=False)
     package_dir = db.Column(db.String(400), nullable=False, unique=True)
     date_uploaded = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     downloads_total = db.Column(db.BigInteger, nullable=False)
     downloads_current_version = db.Column(db.BigInteger, nullable=False)
+    likes = db.Column(db.BigInteger, nullable=False)
     views_total = db.Column(db.BigInteger, nullable=False)
     nsfw = db.Column(db.Boolean, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)

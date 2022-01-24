@@ -2,56 +2,72 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     {% if title %}
         <title>skanhama - {{ title }}</title>
     {% else %}
         <title>skanhama</title>
     {% endif %}
+
+    <!-- Internal Refs -->
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <script src="{{ url_for("static", filename="scripts.js") }}"></script>
+    <script async src="{{ url_for("static", filename="scripts.js") }}"></script>
 
     <!-- External Refs -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&family=Titillium+Web:wght@300;400;600&display=swap" rel="stylesheet">
-    <script src="https://kit.fontawesome.com/5dbb6979db.js" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&family=Work+Sans:wght@300;400&display=swap" rel="stylesheet">
+    <script defer src="https://kit.fontawesome.com/5dbb6979db.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <div class="main">
         <div class="header">
             <div class="header-inner">
                 <div class="header-inner-left">
-                    <a href="{{ url_for('home') }}"><img id="logo" src="{{ url_for("static", filename="logo.svg") }}" alt="Logo and Home Link"></a>
+                    <a href="{{ url_for('home') }}"><img id="logo" src="{{ url_for("static", filename="/site/media/logo2.svg") }}" alt="Home"></a>
                 </div>
                 <nav class="header-inner-center">
                     <ul id="nav-list">
-                        <li><a href="{{ url_for('browse') }}">Browse</a></li>
-                        <li><a href="{{ url_for('upload') }}">Upload</a></li>
-                        <li><a href="{{ url_for('about') }}">About</a></li>
+                        <li><a class="gradient-link" href="{{ url_for('browse') }}">Browse</a></li>
+                        <li><a class="gradient-link" href="{{ url_for('upload') }}">Upload</a></li>
+                        <li><a class="gradient-link" href="{{ url_for('about') }}">About</a></li>
                     </ul>
                     <form name="search-nav">
-                        <input type="text" id="search-input-nav" class="search-input" placeholder="Search..." autocomplete="off" onclick="navSearchFocus()">
+                        <input type="text" id="nav-search-input" class="search-input" placeholder="Search..." autocomplete="off">
+{#                        <i class="fas fa-times icon-close"></i>#}
+                        <!-- #TODO: add closing x with custom logic if needed, change between input type search/text to toggle built in x -->
                     </form>
-                    <i class="fas fa-search"></i>
+                    <div class="search-results hidden">
+                        <div class="search-results-inner">
+                            <ul>
+                                <li id="search-results-prompt">Start typing to display results.</li>
+                                <li>Example 01</li>
+                                <li>Example 02</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <i id="nav-search-icon" class="fas fa-search icon"></i>
                 </nav>
                 <div class="header-inner-right">
                     {% if current_user.is_authenticated %}
                         <div class="header-inner-right-notifications">
-                            <i class="far fa-bell"></i>
-                        </div>
-                        <div class="dropdown">
-                        <i class="fas fa-user-circle"></i>
-                            <button onclick="dropdownAccount()" class="btn btn-clear btn-dropdown">Account</button>
+                            <i class="far fa-bell icon"></i>
+                            <span class="badge" id="badge-notifications">23</span>
+                            <i id="accountMenuIcon" class="fas fa-user-circle btn-dropdown icon"></i>
                             <div id="dropdownAccount" class="dropdown-content">
-                                <h2>{{ current_user.username }}</h2>
+                                <div id="dropdownAccountName">
+                                    <h2>{{ current_user.username }}</h2>
+                                </div>
                                 <a href="{{ url_for('account') }}">Account Settings</a>
                                 <a href="#">Uploaded Packages</a>
                                 <a href="{{ url_for('logout') }}">Sign Out</a>
                             </div>
                         </div>
                     {% else %}
-                        <a id="login" class="btn btn-clear" href="{{ url_for('login') }}">Log In</a>
-                        <a id="register" class="btn btn-clear" href="{{ url_for('register') }}">Register</a>
+                        <a id="login" class="btn" href="{{ url_for('login') }}">Log In</a>
+                        <a id="register" class="btn" href="{{ url_for('register') }}">Register</a>
                     {% endif %}
                 </div>
             </div>

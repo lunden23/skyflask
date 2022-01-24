@@ -1,15 +1,26 @@
 {% extends "layout.html" %}
 {% block content %}
     <div class="content-container">
-        <div class="browse-hot">
-        </div>
-        <div class="browse-body">
-            <h1>Browse Packages</h1>
+        <div class="browse-section-popular">
+            <h1>Popular Animation Packages</h1>
+            <div class="inner">
             {% for package in packages.items %}
-                <div class="card-hot">
-                    <h2><a class="card-title" href="{{ url_for('package', package_id=package.id) }}">{{ package.name }}</a></h2>
+                <div class="card-popular">
+                    <h2><a class="card-popular-title" href="{{ url_for('package', package_id=package.id) }}">{{ package.name }}</a></h2>
+                    <p class="card-popular-summary">{{ package.summary }}</p>
+                    <p class="card-popular-version">{{ package.version }}</p>
+                    <p class="card-popular-author">Uploaded by {{ package.author }}</p>
                 </div>
             {% endfor %}
+            </div>
+        </div>
+        <div class="browse-section-categories">
+            <h1>Other Browsing Methods</h1>
+            <a class="btn">All Animation Packages</a>
+            <a class="btn">Browse by Categories</a>
+        </div>
+        <div class="browse-section-all">
+            <h1>Latest Animation Packages</h1>
         </div>
     </div>
 {% endblock content %}
