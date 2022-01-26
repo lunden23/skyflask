@@ -5,124 +5,167 @@
             <h1 id="h1-upload">Upload an Animation Package</h1>
             <form method="POST" action="" enctype="multipart/form-data">
                 {{ form.hidden_tag() }}
-                <fieldset class="form-group-upload">
-                    <div class="upload-content" id="upload-basic">
-                        <h2 class="upload-header">Mod Details</h2>
-                        <!-- Name -->
-                        <div class="form-group-upload">
-                            {{ form.name.label(class="form-label-upload") }}
-                            {% if form.name.errors %}
-                                {{ form.name(class="form-control invalid-form") }}
-                                <div class="invalid-feedback">
-                                    {% for error in form.name.errors %}
-                                        <span>{{ error }}</span>
-                                    {% endfor %}
-                                </div>
-                            {% else %}
-                                {{ form.name(class="form-control fc-upload") }}
-                            {% endif %}
+                <fieldset class="fieldset fg-upload">
+                    <!-- Section - Basic Information -->
+                    <div class="upload-content">
+                        <div class="upload-content-header">
+                            <h2 class="upload-header">Details</h2>
                         </div>
-                        <!-- Authors -->
-                        <div class="form-group">
-                            {{ form.author.label(class="form-control-label") }}
-                            {% if form.author.errors %}
-                                {{ form.author(class="form-control invalid-form") }}
-                                <div class="invalid-feedback">
-                                    {% for error in form.author.errors %}
-                                        <span>{{ error }}</span>
-                                    {% endfor %}
-                                </div>
-                            {% else %}
-                                {{ form.author(class="form-control") }}
-                            {% endif %}
+                        <div class="upload-content-row">
+                            <!-- Name -->
+                            <div class="form-group" id="upload-basic-name">
+                                {{ form.name.label(class="form-label fl-upload") }}
+                                {% if form.name.errors %}
+                                    {{ form.name(class="form-control invalid-form") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.name.errors %}
+                                            <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    {{ form.name(class="form-control fc-upload") }}
+                                {% endif %}
+                            </div>
+                            <!-- Authors -->
+                            <div class="form-group" id="upload-basic-authors">
+                                {{ form.author.label(class="form-label fl-upload") }}
+                                {% if form.author.errors %}
+                                    {{ form.author(class="form-control invalid-form") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.author.errors %}
+                                            <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    {{ form.author(class="form-control fc-upload") }}
+                                {% endif %}
+                            </div>
+                            <!-- Version -->
+                            <div class="form-group" id="upload-basic-version">
+                                {{ form.version.label(class="form-label fl-upload") }}
+                                {% if form.version.errors %}
+                                    {{ form.version(class="form-control invalid-form") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.version.errors %}
+                                            <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    {{ form.version(class="form-control fc-upload") }}
+                                {% endif %}
+                            </div>
                         </div>
-                        <!-- Version -->
-                        <div class="form-group">
-                            {{ form.version.label(class="form-control-label") }}
-                            {% if form.version.errors %}
-                                {{ form.version(class="form-control invalid-form") }}
-                                <div class="invalid-feedback">
-                                    {% for error in form.version.errors %}
-                                        <span>{{ error }}</span>
-                                    {% endfor %}
-                                </div>
-                            {% else %}
-                                {{ form.version(class="form-control") }}
-                            {% endif %}
+                    </div>
+                    <!-- Section - Categorization -->
+                    <div class="upload-content">
+                       <div class="upload-content-header">
+                            <h2 class="upload-header">Categorization</h2>
+                        </div>
+                        <div class="upload-content-row">
+                            <!-- Category -->
+                            <div class="form-group" id="upload-category-category">
+                                {{ form.category.label(class="form-label fl-upload") }}
+                                {% if form.category.errors %}
+                                    {{ form.category(class="form-control invalid-form") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.category.errors %}
+                                            <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    <p class="fl-hint">Select the main category. If your animation package comprises
+                                    animations from several categories please select an "Overhaul" category.</p>
+                                    {{ form.category(class="form-control fc-upload fc-select") }}
+                                {% endif %}
+                            </div>
+                            <!-- NSFW -->
+                            <div class="form-group" id="upload-category-nsfw">
+                                {{ form.nsfw.label(class="form-label fl-upload") }}
+                                {% if form.nsfw.errors %}
+                                    {{ form.nsfw(class="form-control invalid-form") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.nsfw.errors %}
+                                            <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    <p class="fl-hint">If your animation package pertains to NSFW animations such as
+                                    sex animations or if you upload images that are of a sexual nature please check
+                                    the box below.</p>
+                                    {{ form.nsfw(class="form-control fc-upload", id="fc-nsfw") }}
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Section - Descriptions -->
+                    <div class="upload-content">
+                       <div class="upload-content-header">
+                            <h2 class="upload-header">Description</h2>
+                        </div>
+                        <div class="upload-content-col">
+                            <!-- Brief Summary -->
+                            <div class="form-group" id="upload-desc-summary">
+                                {{ form.summary.label(class="form-label fl-upload") }}
+                                {% if form.summary.errors %}
+                                    {{ form.summary(class="form-control invalid-form") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.summary.errors %}
+                                            <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    <p class="fl-hint">Please provide short summary of your animation package which
+                                        visitors see when browsing packages. Limited to 230 characters or less.</p>
+                                    {{ form.summary(class="form-control fc-upload", id="fc-summary") }}
+                                {% endif %}
+                            </div>
+                            <!-- Description -->
+                            <div class="form-group" id="upload-desc-desc">
+                                {{ form.description.label(class="form-label fl-upload") }}
+                                {% if form.description.errors %}
+                                    {{ form.description(class="form-control invalid-form") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.description.errors %}
+                                            <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    <p class="fl-hint">Detailed description of your animation package. Does not
+                                    currently support any markdown language such as BBCode.</p>
+                                    {{ form.description(class="form-control fc-upload", id="fc-desc") }}
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Section - Requirements -->
+                    <div class="upload-content">
+                       <div class="upload-content-header">
+                            <h2 class="upload-header">Requirements</h2>
+                        </div>
+                        <!-- Requirements -->
+                        <div class="upload-content-col">
+                            <h2 class="fl-upload">Add Requirements</h2>
+                            <p class="fl-hint">It is imperative that people know what animation files are required to
+                            ensure that they can download your animation package. Once you have uploaded your animation
+                            package all .hkx files (Skyrim animation files) are removed to ensure that no intellectual
+                            property rights are infringed upon. You can read a more thorough description of why this
+                            step is so important at LINK.</p>
+                            <div class="form-group" id="upload-requirements">
+                                {{ form.requirements.label(class="form-label fl-label") }}
+                                {% if form.requirements.errors %}
+                                    {{ form.requirements(class="form-control invalid-form") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.requirements.errors %}
+                                            <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    {{ form.requirements(class="form-control fc-upload", id="fc-requirements") }}
+                                {% endif %}
+                            </div>
                         </div>
                     </div>
 
-
-                    <!-- Category -->
-                    <div class="form-group">
-                        {{ form.category.label(class="form-control-label") }}
-                        {% if form.category.errors %}
-                            {{ form.category(class="form-control invalid-form") }}
-                            <div class="invalid-feedback">
-                                {% for error in form.category.errors %}
-                                    <span>{{ error }}</span>
-                                {% endfor %}
-                            </div>
-                        {% else %}
-                            {{ form.category(class="form-control") }}
-                        {% endif %}
-                    </div>
-                    <!-- Brief Summary -->
-                    <div class="form-group">
-                        {{ form.summary.label(class="form-control-label") }}
-                        {% if form.summary.errors %}
-                            {{ form.summary(class="form-control invalid-form") }}
-                            <div class="invalid-feedback">
-                                {% for error in form.summary.errors %}
-                                    <span>{{ error }}</span>
-                                {% endfor %}
-                            </div>
-                        {% else %}
-                            {{ form.summary(class="form-control") }}
-                        {% endif %}
-                    </div>
-                    <!-- Description -->
-                    <div class="form-group">
-                        {{ form.description.label(class="form-control-label") }}
-                        {% if form.description.errors %}
-                            {{ form.description(class="form-control invalid-form") }}
-                            <div class="invalid-feedback">
-                                {% for error in form.description.errors %}
-                                    <span>{{ error }}</span>
-                                {% endfor %}
-                            </div>
-                        {% else %}
-                            {{ form.description(class="form-control") }}
-                        {% endif %}
-                    </div>
-                    <!-- Requirements -->
-                    <div class="form-group">
-                        {{ form.requirements.label(class="form-control-label") }}
-                        {% if form.requirements.errors %}
-                            {{ form.requirements(class="form-control invalid-form") }}
-                            <div class="invalid-feedback">
-                                {% for error in form.requirements.errors %}
-                                    <span>{{ error }}</span>
-                                {% endfor %}
-                            </div>
-                        {% else %}
-                            {{ form.requirements(class="form-control") }}
-                        {% endif %}
-                    </div>
-                    <!-- NSFW -->
-                    <div class="form-group">
-                        {{ form.nsfw.label(class="form-control-label") }}
-                        {% if form.nsfw.errors %}
-                            {{ form.nsfw(class="form-control invalid-form") }}
-                            <div class="invalid-feedback">
-                                {% for error in form.nsfw.errors %}
-                                    <span>{{ error }}</span>
-                                {% endfor %}
-                            </div>
-                        {% else %}
-                            {{ form.nsfw(class="form-control") }}
-                        {% endif %}
-                    </div>
                 </fieldset>
                 <fieldset class="form-fieldset-upload">
                     <!-- File Upload -->

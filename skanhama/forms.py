@@ -59,7 +59,7 @@ class UploadPackage(FlaskForm):
     name = StringField("Package Name", validators=[DataRequired()])
     version = StringField("Current Version", validators=[DataRequired(), Length(min=1, max=30)])
     author = StringField("Author(s) or Team", validators=[DataRequired()])
-    summary = TextAreaField("Brief Description", validators=[DataRequired(), Length(min=1, max=240)])
+    summary = TextAreaField("Brief Description", validators=[DataRequired(), Length(min=1, max=230)])
     description = TextAreaField("Description", validators=[DataRequired(), Length(min=1, max=5000)])
     requirements = TextAreaField("Requirements", validators=[DataRequired()])
     category = SelectField("Primary Category", choices=["Combat", "Sex"], validators=[DataRequired()])
