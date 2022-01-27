@@ -5,13 +5,13 @@
             <h1 id="h1-upload">Upload an Animation Package</h1>
             <form method="POST" action="" enctype="multipart/form-data">
                 {{ form.hidden_tag() }}
-                <fieldset class="fieldset fg-upload">
+                <div class="upload-content">
                     <!-- Section - Basic Information -->
-                    <div class="upload-content">
-                        <div class="upload-content-header">
-                            <h2 class="upload-header">Details</h2>
+                    <fieldset class="fieldset fs-upload">
+                        <div class="fs-upload-header">
+                            <h2 class="upload-header-text">Details</h2>
                         </div>
-                        <div class="upload-content-row">
+                        <div class="fs-upload-base fs-upload-row">
                             <!-- Name -->
                             <div class="form-group" id="upload-basic-name">
                                 {{ form.name.label(class="form-label fl-upload") }}
@@ -55,13 +55,13 @@
                                 {% endif %}
                             </div>
                         </div>
-                    </div>
+                    </fieldset>
                     <!-- Section - Categorization -->
-                    <div class="upload-content">
-                       <div class="upload-content-header">
-                            <h2 class="upload-header">Categorization</h2>
+                    <fieldset class="fieldset fs-upload">
+                        <div class="fs-upload-header">
+                            <h2 class="upload-header-text">Categorization</h2>
                         </div>
-                        <div class="upload-content-row">
+                        <div class="fs-upload-base fs-upload-row">
                             <!-- Category -->
                             <div class="form-group" id="upload-category-category">
                                 {{ form.category.label(class="form-label fl-upload") }}
@@ -96,13 +96,13 @@
                                 {% endif %}
                             </div>
                         </div>
-                    </div>
+                    </fieldset>
                     <!-- Section - Descriptions -->
-                    <div class="upload-content">
-                       <div class="upload-content-header">
-                            <h2 class="upload-header">Description</h2>
+                    <fieldset class="fieldset fs-upload">
+                        <div class="fs-upload-header">
+                            <h2 class="upload-header-text">Description</h2>
                         </div>
-                        <div class="upload-content-col">
+                        <div class="fs-upload-base fs-upload-col">
                             <!-- Brief Summary -->
                             <div class="form-group" id="upload-desc-summary">
                                 {{ form.summary.label(class="form-label fl-upload") }}
@@ -136,22 +136,48 @@
                                 {% endif %}
                             </div>
                         </div>
-                    </div>
+                    </fieldset>
                     <!-- Section - Requirements -->
-                    <div class="upload-content">
-                       <div class="upload-content-header">
-                            <h2 class="upload-header">Requirements</h2>
+                    <fieldset class="fieldset fs-upload">
+                        <div class="fs-upload-header">
+                            <h2 class="upload-header-text">Requirements</h2>
                         </div>
-                        <!-- Requirements -->
-                        <div class="upload-content-col">
+                        <div class="fs-upload-base fs-upload-col" id="fs-upload-requirements">
+                            <!-- Requirements Interactive Input -->
                             <h2 class="fl-upload">Add Requirements</h2>
                             <p class="fl-hint">It is imperative that people know what animation files are required to
                             ensure that they can download your animation package. Once you have uploaded your animation
                             package all .hkx files (Skyrim animation files) are removed to ensure that no intellectual
                             property rights are infringed upon. You can read a more thorough description of why this
                             step is so important at LINK.</p>
+                            <div id="upload-reqs-inner">
+                                <div class="upload-reqs-labels">
+                                    <h3 class="upload-reqs-subtitle" id="urs-name">Name</h3>
+                                    <h3 class="upload-reqs-subtitle" id="urs-link">Link</h3>
+                                    <h3 class="upload-reqs-subtitle" id="urs-note">Note</h3>
+                                </div>
+                                <div class="upload-reqs-control">
+                                    <input class="form-control fc-upload fc-reqs fc-reqs-name" type="text"/>
+                                    <input class="form-control fc-upload fc-reqs fc-reqs-link" type="text"/>
+                                    <input class="form-control fc-upload fc-reqs fc-reqs-note" type="text"/>
+                                </div>
+                                <div class="upload-reqs-control">
+                                    <input class="form-control fc-upload fc-reqs fc-reqs-name" type="text"/>
+                                    <input class="form-control fc-upload fc-reqs fc-reqs-link" type="text"/>
+                                    <input class="form-control fc-upload fc-reqs fc-reqs-note" type="text"/>
+                                    <i class="fas fa-minus-circle fc-reqs-delete icon icon-sm" id="reqsRemove1"></i>
+                                </div>
+                                <div class="upload-reqs-control">
+                                    <input class="form-control fc-upload fc-reqs fc-reqs-name" type="text"/>
+                                    <input class="form-control fc-upload fc-reqs fc-reqs-link" type="text"/>
+                                    <input class="form-control fc-upload fc-reqs fc-reqs-note" type="text"/>
+                                    <i class="fas fa-minus-circle fc-reqs-delete icon icon-sm" id="reqsRemove2"></i>
+                                </div>
+                                <i class="fas fa-plus-circle icon icon-md" id="icon-reqs-add"></i>
+                            </div>
+                            <!-- Actual Form Input -->
                             <div class="form-group" id="upload-requirements">
-                                {{ form.requirements.label(class="form-label fl-label") }}
+                                {{ form.requirements.label(class="form-label fl-upload") }}
                                 {% if form.requirements.errors %}
                                     {{ form.requirements(class="form-control invalid-form") }}
                                     <div class="invalid-feedback">
@@ -160,13 +186,12 @@
                                         {% endfor %}
                                     </div>
                                 {% else %}
-                                    {{ form.requirements(class="form-control fc-upload", id="fc-requirements") }}
+                                    {{ form.requirements(class="form-control fc-upload") }}
                                 {% endif %}
                             </div>
                         </div>
-                    </div>
-
-                </fieldset>
+                    </fieldset>
+                </div>
                 <fieldset class="form-fieldset-upload">
                     <!-- File Upload -->
                     <div class="form-group-upload">
@@ -179,6 +204,7 @@
                         {% endif %}
                     </div>
                 </fieldset>
+                <!-- Submit -->
                 <fieldset class="form-group-field">
                     <div class="form-button-upload">
                         {{ form.upload(class="btn btn-clear btn-upload") }}

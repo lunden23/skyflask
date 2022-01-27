@@ -47,6 +47,50 @@ const accountMenuClickOut = (e) => {
     }
 }
 
+// Handle adding of Upload Requirements input fields
+// Adds a new div with inputs on icon click
+const reqsAddIcon = document.getElementById("icon-reqs-add");
+const rootNode = document.getElementById("upload-reqs-inner");
+
+if (reqsAddIcon) {
+    reqsAddIcon.addEventListener("click", reqsAddInputFunction);
+} else {
+    console.log("Icon Requirements Add button not found.")
+}
+function reqsAddInputFunction() {
+    let div = document.createElement("div");
+    div.classList.add("upload-reqs-control");
+    let name = document.createElement("input");
+    name.classList.add("form-control", "fc-upload", "fc-reqs", "fc-reqs-name");
+    name.type = "text";
+    let link = document.createElement("input");
+    link.classList.add("form-control", "fc-upload", "fc-reqs", "fc-reqs-link");
+    link.type = "text";
+    let note = document.createElement("input");
+    note.classList.add("form-control", "fc-upload", "fc-reqs", "fc-reqs-note");
+    note.type = "text";
+    let icon = document.createElement("i");
+    icon.classList.add("fas", "fa-minus-circle", "fc-reqs-delete", "icon", "icon-sm");
+    icon.addEventListener("click", reqsRemoveInputFunction);
+    div.append(name, link, note, icon);
+    rootNode.insertBefore(div, reqsAddIcon);
+}
+
+// Handle removal of Upload Requirements input fields
+// Removes the active div when remove icon is clicked
+const reqsRemove1 = document.getElementById("reqsRemove1");
+const reqsRemove2 = document.getElementById("reqsRemove2");
+if (reqsRemove1) {
+    reqsRemove1.addEventListener("click", reqsRemoveInputFunction);
+}
+if (reqsRemove2) {
+    reqsRemove2.addEventListener("click", reqsRemoveInputFunction);
+}
+function reqsRemoveInputFunction() {
+    this.parentElement.remove();
+}
+
+
 // Live (Active) Search function in the search bar in the nav menu
 // $(function (){
 //     $("#nav-search-input").on("input", function(e){
