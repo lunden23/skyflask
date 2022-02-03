@@ -7,18 +7,18 @@
    --container-body-margin: 0.5rem 2rem;
    --container-body-padding: 0.25rem;
    --row-gap: calc(10vmin + 5px);
-   /*--clr-AA: rgb(102, 252, 241);*/
-   /*--clr-AB: rgb(69, 149, 143);*/
-   /*--clr-BA: rgb(225, 153, 19);*/
-   /*--clr-BB: rgb(141, 95, 34);*/
-   /*--clr-CA: rgb(139, 57, 187);*/
-   /*--clr-CB: rgb(69, 34, 111);*/
-   --clr-AA: rgb(253, 41, 122);
-   --clr-AB: rgb(163, 47, 88);
-   --clr-CA: rgb(243, 165, 21);
-   --clr-CB: rgb(141, 95, 34);
-   --clr-BA: rgb(139, 57, 187);
-   --clr-BB: rgb(69, 34, 111);
+   --clr-AA: rgb(102, 252, 241);
+   --clr-AB: rgb(69, 149, 143);
+   --clr-BA: rgb(225, 153, 19);
+   --clr-BB: rgb(141, 95, 34);
+   --clr-CA: rgb(139, 57, 187);
+   --clr-CB: rgb(69, 34, 111);
+   /*--clr-AA: rgb(253, 41, 122);*/
+   /*--clr-AB: rgb(163, 47, 88);*/
+   /*--clr-CA: rgb(243, 165, 21);*/
+   /*--clr-CB: rgb(141, 95, 34);*/
+   /*--clr-BA: rgb(139, 57, 187);*/
+   /*--clr-BB: rgb(69, 34, 111);*/
 
    --clr-border-light: rgb(42, 48, 52);
    --clr-border-dark: rgb(15, 15, 23);
@@ -40,8 +40,10 @@
    --clr-bg-content-accent: rgb(33, 33, 36);
    --clr-bg-content-dark: rgb(29, 29, 31);
    --clr-bg-footer: var(--clr-bg-header);
-   --clr-bg-hover: rgb(43, 43, 49);
-   --clr-bg-btn: rgba(16, 16, 19, 0.4);
+   --clr-btn-hover: rgb(35, 35, 40);
+   --clr-btn-solid: rgba(16, 16, 19, 0.4);
+   --clr-bg-fc: rgba(52, 56, 68, 0.15);
+   --clr-bg-light: rgb(222, 225, 229);
 
    --size-h1: 1.3em;
    --size-h2: 1.2em;
@@ -106,7 +108,7 @@ a:visited {
  ***********************************************************************/
 /* Misc */
 .hidden {
-   display: none;
+   display: none !important;
 }
 /* Main */
 .main {
@@ -393,7 +395,7 @@ input:-webkit-autofill:active{
    font-family: 'Work Sans', sans-serif;
    font-weight: 400;
    color: var(--clr-text-light);
-   background: rgba(52, 56, 68, 0.15);
+   background: var(--clr-bg-fc);
    border: solid var(--clr-offsetA) 1px;
 }
 .form-control:focus {
@@ -418,6 +420,7 @@ input:-webkit-autofill:active{
 
 /*
    Upload Page Forms
+
 */
 /* Upload Divs */
 .upload-content {
@@ -506,7 +509,10 @@ input:-webkit-autofill:active{
    flex-basis: 35%;
 }
 #upload-category-nsfw {
-   flex-basis: 35%;
+   flex-basis: 25%;
+}
+#upload-category-game {
+   flex-basis: 25%;
 }
 #upload-desc-summary {
    width: 50%;
@@ -559,8 +565,115 @@ input:-webkit-autofill:active{
    flex-basis: 40%;
 }
 
+/*
+   Dropzone
 
+*/
+.dropzone {
+   background-color: var(--clr-bg-fc);
+   border: solid var(--clr-offsetA) 1px !important;
+   border-radius: 0 !important;
+   padding: 0.5rem !important;
+   min-height: 175px !important;
+}
 
+.dz-image {
+   width: 6rem !important;
+   height: 6rem !important;
+   border-radius: 10px !important;
+}
+/* Filename, expands on hover */
+.dz-details {
+   padding: 1.25rem 0.75rem !important;
+}
+.dz-details span {
+   background-color: transparent !important;
+   border: none !important;
+   border-radius: 0 !important;
+   padding: 0 !important;
+}
+.dz-filename:hover span {
+   background-image: var(--gradient-B) !important;
+   border-radius: 5px !important;
+   padding: 0.25rem !important;
+   position: absolute;
+   left: 50%;
+   transform: translateX(-50%);
+}
+/* Remove button */
+.dz-remove {
+   width: inherit;
+   margin-top: 0.3rem;
+   border-radius: 5px;
+   text-decoration: none;
+   background-color: var(--clr-btn-solid);
+   color: white;
+   border: none !important;
+   line-height: 1rem !important;
+   padding: 0.25rem;
+}
+.dz-remove:hover {
+   background-image: var(--gradient-B) !important;
+   text-decoration: none !important;
+}
+/* Hint text */
+.dz-button {
+   font-size: 0.9rem !important;
+   line-height: 2rem !important;
+}
+/* Error message */
+.dz-error-message {
+   background: var(--clr-bg-light) !important;
+   color: var(--clr-text-dark) !important;
+}
+.dz-error-message:after {
+   border-bottom: 6px solid var(--clr-bg-light) !important;
+}
+/* Image previews */
+.dz-image-preview {
+   background: transparent !important;
+}
+/*
+   Javascript enforced error checking
+
+*/
+.js-upload-error {
+   display: flex;
+   flex-direction: row;
+   margin: 0.5rem 0 0 0;
+   padding: 0.25rem;
+   background-color: rgba(156, 41, 58, 0.9);
+   color: var(--clr-text-light);
+   font-size: 0.9rem;
+   width: max-content;
+   border-radius: 3px;
+}
+.js-error-dismiss {
+   font-size: 1rem;
+   padding: 0;
+   margin: 0 0.25rem 0 1rem;
+   cursor: pointer;
+}
+/*
+   Upload Submit Part
+
+*/
+#upload-submit-container {
+   display: flex;
+   flex-direction: row;
+   flex-wrap: wrap;
+   margin: 2rem 0;
+}
+#upload-submit-a {
+   flex-basis: 50%;
+}
+#upload-submit-b {
+   flex-basis: 50%;
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   justify-content: space-evenly;
+}
 
 /*
 Misc Forms
@@ -782,7 +895,7 @@ Misc Forms
    border: solid 1px rgba(0, 0, 0, 0);
 }
 .dropdown-content a:hover {
-   background: var(--clr-bg-hover);
+   background: var(--clr-btn-hover);
    border: solid 1px;
    border-image: var(--gradient-A);
 }
@@ -797,48 +910,50 @@ Misc Forms
    background: var(--clr-bg-footer);
 }
 
-/* Buttons */
+/*
+   Buttons
+
+*/
 .btn {
    width: 8rem;
    height: 2.4rem;
    display: inline-flex;
    justify-content: center;
    align-items: center;
-}
-.btn {
    cursor: pointer;
    text-decoration: none;
    color: var(--clr-text-light);
    font-size: var(--size-button);
-   background-color: var(--clr-bg-btn);
-   border: solid var(--clr-border-light) 1px;
-}
-.btn-clear {
-   background: none;
+   background-color: var(--clr-btn-solid);
    border: solid var(--clr-border-light) 1px;
 }
 .btn:hover {
    color: var(--clr-text-light) !important;
-   background: var(--clr-bg-hover);
+   background: var(--clr-btn-hover);
    border: solid 1px;
    border-image: var(--gradient-A);
 }
 .btn:visited {
    color: var(--clr-text-light);
 }
+/* TODO: check if btn-solid is deprecated */
 .btn-solid {
    color: var(--clr-text-light);
-   background: var(--clr-bg-btn);
+   background: var(--clr-btn-solid);
    border: solid var(--clr-AA) 1px;
 }
 .btn-solid:hover {
    color: var(--clr-text-light) !important;
-   background: var(--clr-bg-hover);
+   background: var(--clr-btn-hover);
    border: solid 1px;
    border-image: var(--gradient-A);
 }
 .btn-solid:visited {
    color: var(--clr-text-light);
+}
+.btn-upload {
+   width: 12rem;
+   height: 3rem;
 }
 
 
@@ -868,7 +983,7 @@ Misc Forms
    transition: all 150ms ease;
 }
 .nav-sidebar a:hover {
-   background: var(--clr-bg-hover);
+   background: var(--clr-btn-hover);
    outline: none;
    border: solid var(--clr-bg-header) 1px;
    border-image: var(--gradient-A);

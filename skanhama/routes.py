@@ -1,4 +1,3 @@
-import secrets
 import os.path
 import sqlite3
 import zipfile
@@ -29,8 +28,8 @@ def register():
     form = RegistrationForm()
     if form.validate_on_submit():
         hashed_password = generate_password_hash(form.password.data, "sha256")
-        user = User(username=form.username.data, email=form.email.data, password=hashed_password,
-                    registered_on=datetime.now(), confirmed=False, admin=False)
+        user = User(username=form.username.data, email=form.email.data, password_hash=hashed_password,
+                    registered_on=datetime.now(), confirmed=False)
         db.session.add(user)
         db.session.commit()
         flash(f"An email has been sent to the registered email for user {form.username.data}. Please "
@@ -46,7 +45,7 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
-        if user and check_password_hash(user.password, form.password.data):
+        if user and check_password_hash(user.password_hash, form.password.data):
             login_user(user, remember=form.remember.data)
             next_page = request.args.get("next")
             return redirect(next_page) if next_page else redirect(url_for("home"))
@@ -121,9 +120,10 @@ def browse():
 
 
 # Processes the uploaded package
-#
+# TODO: potentially stream the uploaded file first before saving to disk? See
+# https://blog.miguelgrinberg.com/post/handling-file-uploads-with-flask
 def process_package(form):
-    processor_version = 0.1
+    processor_version = "0.10"
     f_name, f_ext = os.path.splitext(form.package.data.filename)
     root_dir = Path(app.root_path, "static/packages", current_user.username)
     extracted_dir = Path(root_dir, str(form.name.data + "_" + form.version.data))
@@ -165,6 +165,8 @@ def process_package(form):
         shutil.rmtree(extracted_dir)
     return file_dict
 
+# def secure_validate_hkx(hkx_file):
+
 
 @app.route("/upload", methods=["GET", "POST"])
 @login_required
@@ -177,8 +179,11 @@ def upload():
             if file_dict:
                 print(f"package_data: {file_dict['_package_data'][1]}")
                 pack = Package(name=form.name.data,
-                               version=form.version.data,
                                author=current_user.username,
+                               version=form.version.data,
+                               category=form.category.data,
+                               game=form.category.data,
+                               nsfw=form.nsfw.data,
                                summary=form.summary.data,
                                description=form.description.data,
                                requirements=form.requirements.data,
@@ -188,7 +193,6 @@ def upload():
                                downloads_current_version=0,
                                views_total=0,
                                likes=0,
-                               nsfw=form.nsfw.data,
                                user_id=current_user.id)
                 db.session.add(pack)
                 db.session.commit()

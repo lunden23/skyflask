@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed, FileSize
 from flask_login import current_user
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField, SelectField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField, SelectField, MultipleFileField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from skanhama.models import User
 
@@ -21,7 +21,7 @@ class RegistrationForm(FlaskForm):
     def validate_email(self, email):
         user = User.query.filter_by(email=email.data).first()
         if user:
-            raise ValidationError("Unable to create account. Please ensure you have submitted correct information.")
+            raise ValidationError("An account with that email address already exists.")
 
 
 class LoginForm(FlaskForm):
@@ -56,6 +56,7 @@ class ChangeEmail(FlaskForm):
 
 
 class UploadPackage(FlaskForm):
+    # TODO: add base game as input
     name = StringField("Package Name", validators=[DataRequired()])
     version = StringField("Current Version", validators=[DataRequired(), Length(min=1, max=30)])
     author = StringField("Author(s) or Team", validators=[DataRequired()])
@@ -63,6 +64,11 @@ class UploadPackage(FlaskForm):
     description = TextAreaField("Description", validators=[DataRequired(), Length(min=1, max=5000)])
     requirements = TextAreaField("Requirements", validators=[DataRequired()])
     category = SelectField("Primary Category", choices=["Combat", "Sex"], validators=[DataRequired()])
+    game = SelectField("Game Version", choices=[(1, "Skyrim"), (2, "Skyrim Special Edition"),
+                                                (3, "Skyrim Anniversary Edition")],
+                       validators=[DataRequired()], default=2)
     nsfw = BooleanField("NSFW Content")
-    package = FileField("Select Package", validators=[FileAllowed(["zip"]), FileSize(max_size=20*1024*1024)])
+    package = FileField("Select Package", validators=[FileAllowed(["zip"]), FileSize(max_size=50*1024*1024)])
+    banner = FileField("Select Banner Image", validators=[FileAllowed(["jpg", "gif", "png"]), FileSize(max_size=4*1024*1024)])
+    gallery = MultipleFileField("Add Gallery Images", validators=[FileAllowed(["jpg", "gif", "png"]), FileSize(max_size=10*1024*1024)])
     upload = SubmitField("Upload")

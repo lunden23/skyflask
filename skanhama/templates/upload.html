@@ -1,4 +1,9 @@
 {% extends "layout.html" %}
+{% block route_references %}
+    <!-- Dropzone.js -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='dropzone.css') }}">
+    <script src="{{ url_for('static', filename='dropzone-min.js') }}"></script>
+{% endblock %}
 {% block content %}
     <div class="content-container">
         <div class="upload-top">
@@ -78,6 +83,22 @@
                                     {{ form.category(class="form-control fc-upload fc-select") }}
                                 {% endif %}
                             </div>
+                            <!-- Game -->
+                            <div class="form-group" id="upload-category-game">
+                                {{ form.game.label(class="form-label fl-upload") }}
+                                {% if form.game.errors %}
+                                    {{ form.game(class="form-control invalid-form") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.game.errors %}
+                                            <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    <p class="fl-hint">Select the main base game your animation pack is compatible
+                                        with.</p>
+                                    {{ form.game(class="form-control fc-upload fc-select") }}
+                                {% endif %}
+                            </div>
                             <!-- NSFW -->
                             <div class="form-group" id="upload-category-nsfw">
                                 {{ form.nsfw.label(class="form-label fl-upload") }}
@@ -145,11 +166,11 @@
                         <div class="fs-upload-base fs-upload-col" id="fs-upload-requirements">
                             <!-- Requirements Interactive Input -->
                             <h2 class="fl-upload">Add Requirements</h2>
-                            <p class="fl-hint">It is imperative that people know what animation files are required to
-                            ensure that they can download your animation package. Once you have uploaded your animation
-                            package all .hkx files (Skyrim animation files) are removed to ensure that no intellectual
-                            property rights are infringed upon. You can read a more thorough description of why this
-                            step is so important at LINK.</p>
+                            <p class="fl-hint">Please list all requirements needed to make your animation package
+                            work. This includes both mods and animation files. Even if you only use one animation
+                            from a larger set please list the full set as
+                            a requirement. If you have animations released on for example a Patreon discord please
+                            list that as well with a link to the Patreon subscription page.</p>
                             <div id="upload-reqs-inner">
                                 <div class="upload-reqs-labels">
                                     <h3 class="upload-reqs-subtitle" id="urs-name">Name</h3>
@@ -189,25 +210,93 @@
                                     {{ form.requirements(class="form-control fc-upload") }}
                                 {% endif %}
                             </div>
+                            <div class="btn btn-solid" id="reqs-manual">Update</div>
+                        </div>
+                    </fieldset>
+                    <!-- Section - File Upload -->
+                    <fieldset class="fieldset fs-upload">
+                        <div class="fs-upload-header">
+                            <h2 class="upload-header-text">File Upload</h2>
+                        </div>
+                        <!-- File Upload -->
+                        <div class="fs-upload-base fs-upload-col">
+                            <div class="form-group">
+                                {{ form.package.label() }}
+                                <p class="fl-hint">You can only upload one file. Please ensure that you zip the root
+                                folder and that there are no other zipped files in the directory.</p>
+                                <div class="dropzone" id="dropzoneAnimation">
+                                </div>
+                                {% if form.package.errors %}
+                                    {% for error in form.package.errors %}
+                                        <span>{{ error }}</span><br>
+                                    {% endfor %}
+                                {% endif %}
+                                <div class="js-upload-error hidden" id="js-error-file">
+                                    <p class="js-upload-error-text" id="js-error-file-text"></p>
+                                    <i class="fas fa-times-circle js-error-dismiss" id="js-error-dismiss-file"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <!-- Section - Images Upload -->
+                    <fieldset class="fieldset fs-upload">
+                        <div class="fs-upload-header">
+                            <h2 class="upload-header-text">Media</h2>
+                        </div>
+                        <!-- Banner Upload -->
+                        <div class="fs-upload-base fs-upload-col">
+                            <div class="form-group">
+                                {{ form.banner.label() }}
+                                <p class="fl-hint">Upload a banner image that will be displayed at the top of the
+                                download page and as a thumbnail when browsing. Full size is 230x230 pixels.</p>
+                                <div class="dropzone" id="dropzoneBanner">
+                                </div>
+                                {% if form.banner.errors %}
+                                    {% for error in form.banner.errors %}
+                                        <span>{{ error }}</span><br>
+                                    {% endfor %}
+                                {% endif %}
+                                <div class="js-upload-error hidden" id="js-error-banner">
+                                    <p class="js-upload-error-text" id="js-error-banner-text"></p>
+                                    <i class="fas fa-times-circle js-error-dismiss" id="js-error-dismiss-banner"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Gallery Images Upload -->
+                        <div class="fs-upload-base fs-upload-col">
+                            <div class="form-group">
+                                {{ form.gallery.label() }}
+                                <p class="fl-hint">Upload additional images that will be added to a gallery that users
+                                can view. You can only upload 20 images.</p>
+                                <div class="dropzone" id="dropzoneGallery">
+                                </div>
+                                {% if form.gallery.errors %}
+                                    {% for error in form.gallery.errors %}
+                                        <span>{{ error }}</span><br>
+                                    {% endfor %}
+                                {% endif %}
+                                <div class="js-upload-error hidden" id="js-error-gallery">
+                                    <p class="js-upload-error-text" id="js-error-gallery-text"></p>
+                                    <i class="fas fa-times-circle js-error-dismiss" id="js-error-dismiss-gallery"></i>
+                                </div>
+                            </div>
                         </div>
                     </fieldset>
                 </div>
-                <fieldset class="form-fieldset-upload">
-                    <!-- File Upload -->
-                    <div class="form-group-upload">
-                        {{ form.package.label() }}
-                        {{ form.package(class="form-control-file") }}
-                        {% if form.package.errors %}
-                            {% for error in form.package.errors %}
-                                <span>{{ error }}</span><br>
-                            {% endfor %}
-                        {% endif %}
-                    </div>
-                </fieldset>
                 <!-- Submit -->
                 <fieldset class="form-group-field">
-                    <div class="form-button-upload">
-                        {{ form.upload(class="btn btn-clear btn-upload") }}
+                    <div id="upload-submit-container">
+                        <div id="upload-submit-a">
+                            <h1>Finalize and Upload</h1>
+                            <p>Before pressing the "Upload" button make sure that you have followed the guidance provided in
+                            the form. Your animation package and media files will be scanned and may be rejected if they do
+                            not meet the guidelines. Are you sure you want to upload?</p>
+                        </div>
+                        <div id="upload-submit-b">
+                            <div class="form-button-upload">
+                                {{ form.upload(class="btn btn-upload") }}
+                            </div>
+                        </div>
                     </div>
                 </fieldset>
             </form>

@@ -19,8 +19,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&family=Work+Sans:wght@300;400&display=swap" rel="stylesheet">
     <script defer src="https://kit.fontawesome.com/5dbb6979db.js" crossorigin="anonymous"></script>
-    <script src="https://unpkg.com/dropzone@6.0.0-beta.1/dist/dropzone-min.js"></script>
-    <link href="https://unpkg.com/dropzone@6.0.0-beta.1/dist/dropzone.css" rel="stylesheet" type="text/css" />
+
+    <!-- Route Specific Refs -->
+    {% block route_references %}
+
+    {% endblock %}
 </head>
 <body>
     <div class="main">
@@ -89,11 +92,11 @@
         </div>
         <div class="footer">
             <div class="footer-inner">
-                <p>Discuss SKANHAMA on Nexus Mods.</p>
+                <p>Discuss SKANHAMA on GitHub.</p>
             </div>
         </div>
     </div>
     <!-- Internal Scripts -->
-    <script async src="{{ url_for("static", filename="scripts.js") }}"></script>
+    <script src="{{ url_for("static", filename="scripts.js") }}"></script>
 </body>
 </html>
