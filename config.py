@@ -7,5 +7,7 @@ class Config(object):
     SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL") or "sqlite:///" + os.path.join(basedir, "site.db")
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     MAX_CONTENT_LENGTH = 50 * 1024 * 1024
+    UPLOAD_EXTENSIONS = [".jpg", ".jpeg", ".png", ".gif", ".zip"]
+    UPLOAD_PATH = "packs"
     # MAX_DOWNLOAD_SIZE = 50 * 1024 * 1024
     # MAX_UPLOAD_SIZE = 40 * 1024 * 1024

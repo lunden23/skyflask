@@ -4,12 +4,17 @@ import zipfile
 import hashlib
 import shutil
 import json
+import uuid
 
 from datetime import datetime
 from pathlib import Path
-from flask import render_template, url_for, flash, redirect, request, jsonify
+
+import flask
+from flask import render_template, url_for, flash, redirect, request, jsonify, abort
 from flask_login import login_user, current_user, logout_user, login_required
 from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.utils import secure_filename
+
 from skanhama import app, db
 from skanhama.forms import RegistrationForm, LoginForm, ChangeUsername, ChangeEmail, UploadPackage
 from skanhama.models import User, Package
@@ -171,36 +176,65 @@ def process_package(form):
 @app.route("/upload", methods=["GET", "POST"])
 @login_required
 def upload():
-    print(app.root_path)
+    print(app.root_path + " | uploads folder: " + app.config["UPLOAD_PATH"])
     form = UploadPackage()
-    if form.validate_on_submit():
-        if form.package.data:
-            file_dict = process_package(form)
-            if file_dict:
-                print(f"package_data: {file_dict['_package_data'][1]}")
-                pack = Package(name=form.name.data,
-                               author=current_user.username,
-                               version=form.version.data,
-                               category=form.category.data,
-                               game=form.category.data,
-                               nsfw=form.nsfw.data,
-                               summary=form.summary.data,
-                               description=form.description.data,
-                               requirements=form.requirements.data,
-                               package_dir=file_dict["_package_data"][1],
-                               date_uploaded=datetime.now(),
-                               downloads_total=0,
-                               downloads_current_version=0,
-                               views_total=0,
-                               likes=0,
-                               user_id=current_user.id)
-                db.session.add(pack)
-                db.session.commit()
-                flash("Your package was successfully uploaded.", "success")
-            else:
-                flash("Your package did not contain any .hkx files and has not been uploaded. Please ensure you "
-                      "upload a package that contains valid Skyrim animation files.", "fail")
-            return redirect(url_for("browse"))
+    # POST Request
+    if request.method == "POST":
+        if form.validate_on_submit():
+            # Perform filename sanitation before content scanning
+            for key, f in request.files.items():
+                if key.startswith("file"):
+                    file_name = secure_filename(f.filename)
+                    file_ext = os.path.splitext(file_name)[1]
+                    if file_name != "":
+                        if file_ext not in app.config["UPLOAD_EXTENSIONS"]:
+                            abort(400)
+                        else:
+                            if "banner" in file_name:
+                                f.filename = "_b_" + uuid.uuid4().hex
+                            else:
+                                f.filename = uuid.uuid4().hex + file_ext
+                            print(f.filename)
+                        # Perform content scanning
+
+
+
+
+    # if form.validate_on_submit():
+    #     print("@app.route > Package Submitted > " + datetime.now().strftime("%H:%M:%S"))
+    #     print("@app.route > request size: ")
+    #     for k, v in flask.request.files.items():
+    #         if k.startswith("file"):
+    #             print(k + " | " + v.filename)
+
+
+        # if form.package.data:
+        #     file_dict = process_package(form)
+        #     if file_dict:
+        #         print(f"package_data: {file_dict['_package_data'][1]}")
+        #         pack = Package(name=form.name.data,
+        #                        author=current_user.username,
+        #                        version=form.version.data,
+        #                        category=form.category.data,
+        #                        game=form.category.data,
+        #                        nsfw=form.nsfw.data,
+        #                        summary=form.summary.data,
+        #                        description=form.description.data,
+        #                        requirements=form.requirements.data,
+        #                        package_dir=file_dict["_package_data"][1],
+        #                        date_uploaded=datetime.now(),
+        #                        downloads_total=0,
+        #                        downloads_current_version=0,
+        #                        views_total=0,
+        #                        likes=0,
+        #                        user_id=current_user.id)
+        #         db.session.add(pack)
+        #         db.session.commit()
+        #         flash("Your package was successfully uploaded.", "success")
+        #     else:
+        #         flash("Your package did not contain any .hkx files and has not been uploaded. Please ensure you "
+        #               "upload a package that contains valid Skyrim animation files.", "fail")
+        #     return redirect(url_for("browse"))
     return render_template("upload.html", title="Upload Package", form=form)
 
 

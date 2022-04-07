@@ -185,9 +185,9 @@ if (document.getElementById("dropzoneAnimation")) {
     };
     // Options - Banner Image
     const dropzoneOptionsBanner = {
-        dictDefaultMessage: 'Drop your banner image here or click to select.<br>Max file size: 2 MB. Accepted file formats: .jpg, .jpeg, .gif, .png.',
+        dictDefaultMessage: 'Drop your banner image here or click to select.<br>Max file size: 3 MB. Accepted file formats: .jpg, .jpeg, .gif, .png.',
         paramName: "file",
-        maxFilesize: 2, // MB
+        maxFilesize: 3, // MB
         acceptedFiles: ".jpg, .gif, .png, .jpeg",
         addRemoveLinks: true,
         dictRemoveFile: "Remove",
@@ -231,13 +231,17 @@ if (document.getElementById("dropzoneAnimation")) {
         },
         accept: function(file, done) {
             return done();
+        },
+        renameFile: function (file) {
+            let extension = file.name.substring(file.name.lastIndexOf('.')+1, file.name.length) || file.name;
+            return "banner." + extension;
         }
     };
     // Options - Gallery Images
     const dropzoneOptionsGallery = {
-        dictDefaultMessage: 'Drop your gallery images here or click to select.<br>Max size per file: 4 MB. Accepted file formats: .jpg, .jpeg, .gif, .png.',
+        dictDefaultMessage: 'Drop your gallery images here or click to select.<br>Max size per file: 6 MB. Accepted file formats: .jpg, .jpeg, .gif, .png.',
         paramName: "file",
-        maxFilesize: 4, // MB
+        maxFilesize: 6, // MB
         acceptedFiles: ".jpg, .gif, .png, .jpeg",
         resizeWidth: 1080,
         resizeQuality: 1,
@@ -256,6 +260,12 @@ if (document.getElementById("dropzoneAnimation")) {
             let container = document.getElementById("js-error-gallery");
             let error = document.getElementById("js-error-gallery-text");
             let error_text = document.createTextNode("");
+            let droppedFilesCounter;
+            this.on("drop", function(event) {
+                if (typeof event.dataTransfer.files == 'object') {
+                    droppedFilesCounter = event.dataTransfer.files.length;
+                }
+            });
             this.on("addedfile", function (file) {
                 let _this = this;
                 console.log(file.name + " -> type: " + file.type);
@@ -271,14 +281,24 @@ if (document.getElementById("dropzoneAnimation")) {
                     error_text.data = "You have reached the maximum number of files and cannot upload any more."
                     error.appendChild(error_text);
                     container.classList.remove("hidden");
+                } else if (this.files.length > 4 * 1024 * 1024) {
+                    _this.removeFile(file);
+                    console.log("error > too many files (" + this.files.length + ") reached when adding " + file.name)
+                    error_text.data = "You have reached the maximum number of files and cannot upload any more."
+                    error.appendChild(error_text);
+                    container.classList.remove("hidden");
                 }
+                droppedFilesCounter--;
+            //    TODO: Fix droppedFilesCounter mechanism
             });
             this.on("success", function (file) {
                 console.log("success > " + file.name);
-                if (!container.classList.contains("hidden")) {
+                if (!container.classList.contains("hidden") && droppedFilesCounter === 1) {
                     error.removeChild(error_text);
                     container.classList.add("hidden");
                 }
+
+                console.log("droppedFilesCounter: " + droppedFilesCounter)
             });
         },
         accept: function(file, done) {
