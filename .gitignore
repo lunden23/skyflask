@@ -77,8 +77,9 @@ docs/_build/
 target/
 
 # Skanhama
-config.py
-site.db
+#config.py
+#site.db
+#migrations/
 
 # Jupyter Notebook
 .ipynb_checkpoints
