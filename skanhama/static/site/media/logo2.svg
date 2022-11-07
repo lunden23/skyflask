@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="127.999" height="127.999" viewBox="0 0 1064 1064">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+        stroke: #fff;
+        stroke-width: 35.2px;
+      }
+
+      .cls-2 {
+        font-size: 721px;
+        fill: #fff;
+        font-family: "Darker Grotesque";
+        font-weight: 500;
+        font-variant: small-caps;
+      }
+    </style>
+  </defs>
+  <circle class="cls-1" cx="532" cy="532" r="532"/>
+  <text id="SH" class="cls-2" x="147" y="734">SH</text>
+</svg>

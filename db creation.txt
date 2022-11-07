@@ -1,0 +1,36 @@
+open cmd
+cd C:\Users\lunde\Desktop\skyflask\venv\Scripts
+activate
+cd C:\Users\lunde\Desktop\skyflask
+python
+from skanhama import db
+db.create_all()
+exit()
+
+
+Migrations
+open cmd
+cd C:\Users\lunde\Desktop\skyflask\venv\Scripts
+activate
+cd C:\Users\lunde\Desktop\skyflask
+flask db migrate -m "<COMMENT OPTIONAL>"
+flask db upgrade
+
+To downgrade it is:
+flask db downgrade
+
+Other commands:
+flask db history
+flask db current -> (head) indicates latest migration
+
+
+
+
+logins
+skurk
+skurk@gmail.com
+pass123
+
+RasmusRicksson
+rasmus@gmail.com
+rasmus
